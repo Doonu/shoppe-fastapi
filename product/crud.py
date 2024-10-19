@@ -15,10 +15,10 @@ def get_product(limit: int, offset: int):
 
 
 def change_product_price(product_id: int, new_price: int):
-    print(product_id)
     current_shop = list(
         filter(lambda shop: shop.get("id") == product_id, fake_product_data)
     )[0]
+
     current_shop["price"] = new_price
     return {"statue": 200, "data": current_shop}
 
