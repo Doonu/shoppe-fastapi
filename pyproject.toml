@@ -12,6 +12,7 @@ fastapi = "^0.115.2"
 uvicorn = {extras = ["standard"], version = "^0.32.0"}
 sqlalchemy = {extras = ["asynio"], version = "^2.0.36"}
 asyncpg = "^0.29.0"
+pydantic-settings = "^2.6.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
