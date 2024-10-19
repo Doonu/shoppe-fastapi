@@ -1,5 +1,7 @@
 from fastapi import APIRouter
-from typing import List
+from typing import List, Annotated
+
+from fastapi import Path
 
 from product import crud
 from product.schemas import Product
@@ -8,7 +10,7 @@ router = APIRouter(prefix="/product", tags=["Product"])
 
 
 @router.get("", response_model=List[Product])
-def get_product(limit: int = 1, offset: int = 1):
+def get_product(limit: int, offset: int = 1):
     return crud.get_product(limit, offset)
 
 

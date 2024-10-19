@@ -10,9 +10,12 @@ readme = "README.md"
 python = "^3.9"
 fastapi = "^0.115.2"
 uvicorn = {extras = ["standard"], version = "^0.32.0"}
+sqlalchemy = {extras = ["asynio"], version = "^2.0.36"}
+asyncpg = "^0.29.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.3"
+black = "^24.10.0"
 
 [build-system]
 requires = ["poetry-core"]
