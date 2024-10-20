@@ -60,4 +60,4 @@
 - alembic revision --autogenerate -m "Database creation"
 
 Повышение
-- alembic upgrade <hash из verions в переменной revision> 
+- alembic upgrade <hash из verions в переменной revision (head)> 
