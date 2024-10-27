@@ -2,9 +2,16 @@
 
 set -e
 
-docker-compose up -d db || { echo "Ошибка при запуске docker-compose"; exit 1; }
+docker-compose up -d db || { echo "Ошибка при запуске базы данных"; exit 1; }
 
-alembic upgrade head || { echo "Ошибка при применении миграций"; exit 1; }
+current_revision=$(alembic current | grep 'head' || true)
+
+if [ -z "$current_revision" ]; then
+  echo "Применение миграций..."
+  alembic upgrade head || { echo "Ошибка при применении миграций"; exit 1; }
+else
+  echo "Миграции не требуются, база данных на последней версии."
+fi
 
 cleanup() {
   echo "Остановка контейнеров..."
