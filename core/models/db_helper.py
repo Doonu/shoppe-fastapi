@@ -12,10 +12,12 @@ from core.config import settings
 
 class DatabaseHelper:
     def __init__(self, url: str, echo: bool = False):
-        self.engine = create_async_engine(url=url, echo=echo)
+        self.engine = create_async_engine(
+            url=url, echo=echo
+        )  # Создание асинхронного движка базы данных
         self.session_factory = async_sessionmaker(
             bind=self.engine, autoflush=False, autocommit=False, expire_on_commit=False
-        )
+        )  # Создание фабрики для создания сессий через sessionmaker
 
     def get_scoped_session(self):
         session = async_scoped_session(

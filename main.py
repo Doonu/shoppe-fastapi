@@ -4,7 +4,6 @@ import uvicorn
 
 from core.config import settings
 from fastapi import FastAPI
-from core.models import Base, db_helper
 from api_v1 import router as router_v1
 
 
