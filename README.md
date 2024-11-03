@@ -1,4 +1,5 @@
-# backend_shoppe
+# backend_shoppehttps://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
+Создать crud для пользователей
 
 Настроить виртуальное окружения в PyCharm (File --> Python Interpretator)
 
@@ -183,7 +184,7 @@ async def get_items(db: AsyncSession = Depends(db_helper.session_dependency)):
 Связи между таблицами
 ------------------------------
 
-1) Один ко многим между таблицами
+1) Один ко многим
 Отношение «один ко многим» (One-to-Many) между таблицами в базе данных означает, что 
 одна запись в одной таблице может быть связана с несколькими записями в другой таблице. 
 Например, один пользователь может иметь несколько постов - User и Post.
@@ -197,3 +198,9 @@ post.py
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
     user: Mapped["User"] = relationship(back_populates="posts")
 ```
+
+2) Один к одному
+Связь «один к одному» (One-to-One) в базе данных означает, что каждая запись в одной таблице может быть связана 
+только с одной записью в другой таблице. Это полезно, когда ты хочешь разделить данные между двумя таблицами, но 
+поддерживать уникальное соответствие между записями.
+user.py и profile.py

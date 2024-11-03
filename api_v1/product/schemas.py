@@ -5,8 +5,8 @@ from pydantic import BaseModel, Field, ConfigDict
 
 class ProductBase(BaseModel):
     name: str
-    description: str
     price: int = Field(..., gt=0)
+    description: str
 
 
 class ProductCreate(ProductBase):
@@ -19,8 +19,8 @@ class ProductUpdate(ProductBase):
 
 class ProductUpdatePartial(BaseModel):
     name: Optional[str] = None
-    description: Optional[str] = None
     price: Optional[int] = None
+    description: Optional[str] = None
 
 
 class Product(ProductBase):
