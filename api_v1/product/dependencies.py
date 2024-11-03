@@ -7,7 +7,7 @@ from . import crud
 from core.models import db_helper, Product
 
 
-async def product_bu_id(
+async def product_by_id(
     product_id: Annotated[int, Path],
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> Product:

@@ -3,7 +3,7 @@ from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .dependencies import product_bu_id
+from .dependencies import product_by_id
 
 from core.models import db_helper
 
@@ -21,7 +21,7 @@ async def get_products(
 
 
 @router.get("/{product_id}", response_model=Product)
-async def get_item_products(product: Product = Depends(product_bu_id)):
+async def get_item_products(product: Product = Depends(product_by_id)):
     return product
 
 
@@ -36,7 +36,7 @@ async def create_product(
 @router.put("/{product_id}", response_model=Product)
 async def update_product(
     product_update: ProductUpdate,
-    product: Product = Depends(product_bu_id),
+    product: Product = Depends(product_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.update_product(
@@ -47,7 +47,7 @@ async def update_product(
 @router.patch("/{product_id}", response_model=Product)
 async def update_product_partial(
     product_update: ProductUpdatePartial,
-    product: Product = Depends(product_bu_id),
+    product: Product = Depends(product_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> Product:
     return await crud.update_product(
@@ -57,7 +57,7 @@ async def update_product_partial(
 
 @router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_product(
-    product: Product = Depends(product_bu_id),
+    product: Product = Depends(product_by_id),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ) -> None:
     await crud.delete_product(session=session, product=product)
