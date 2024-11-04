@@ -1,5 +1,8 @@
 # backend_shoppehttps://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
-Создать crud для пользователей
+
+Запуск приложения:
+dev сборка - ./run.sh
+prod сборка - ./run.sh prod
 
 Настроить виртуальное окружения в PyCharm (File --> Python Interpretator)
 

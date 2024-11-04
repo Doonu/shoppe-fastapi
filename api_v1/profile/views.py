@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends
 
 from core.models import db_helper
 
@@ -9,6 +9,7 @@ from .schemas import Profile
 router = APIRouter(tags=["Profile"])
 
 
+# Вытаскивать id из сессии
 @router.get("/{user_id}", response_model=Profile)
 async def get_profile(
     user_id: int,
