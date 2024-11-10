@@ -1,8 +1,8 @@
-# backend_shoppehttps://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
+# backend_shoppe https://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
 
 Запуск приложения:
-dev сборка - ./run.sh
-prod сборка - ./run.sh prod
+1) dev сборка - ```./run.sh```
+2) prod сборка - ```./run.sh prod```
 
 Настроить виртуальное окружения в PyCharm (File --> Python Interpretator)
 
@@ -15,81 +15,71 @@ prod сборка - ./run.sh prod
    pip install fastapi[all] 
    pip install sqlalchemy alembic psycopg2
 ```
-4. Сохрнанение зависимостей
-```
- pip freeze > reaquirements.txt
-```
-
  В ходе установки добавлены следующие пакеты:
 - FastAPI и его основные зависимости: Starlette и Pydantic, которые обеспечивают маршрутизацию, обработку запросов и валидацию данных.
 - Дополнительные пакеты для FastAPI: FastAPI-CLI для командной строки, HTTPX для выполнения HTTP-запросов, Jinja2 для шаблонов HTML, Python-multipart для обработки файловых загрузок, и Uvicorn для запуска сервера ASGI.
 - Поддержка различных форматов данных и безопасности: PyYAML, UJSON, Orjson, и Email-validator.
-- Дополнительные пакеты для улучшения работы и разработки: Pydantic-settings и Pydantic-extra-types для расширенной конфигурации и типов, Typer для работы с CLI, а также Rich для вывода в консоль.
+- Дополнительные пакеты для улучшения работы и разработки: Pydantic-settings и Pydantic-extra-types для расширенной конфигурации и типов, Typer для работы с CLI, а также Rich для вывода в консоль._
 
 ----
 Контроль версий `poetry`
 ----
-1. 
-```
-    poetry init
-```
+1. ``` poetry init```
 2. Синхронизация между окружением и системой контроля зависимостей
-```
-   poetry install --sync
-```
+```poetry install --sync```
 
 ----
 Использование базы данных Postgres + Docker
 ----
-- ***docker pull postgres***
+- ```docker pull postgres```
 
 Создание базы данных с именем todo-db и паролем - qwerty, порта для использования 5436
 После остановки контейнера - он удаляется 
-- ***docker run --name=shopp_db -e POSTGRES_PASSWORD="qwerty" -p 5436:5432 -d --rm postgres***
+- ```docker run --name=shopp_db -e POSTGRES_PASSWORD="qwerty" -p 5436:5432 -d --rm postgres```
 
 Подключение к базе данных
-- docker ps (вытаскиваем id контейнер)
-- docker exec -it <id Container> /bin/bash
-- psql -U postgres
-- \d
+- ```docker ps``` (вытаскиваем id контейнер)
+- ```docker exec -it <id Container> /bin/bash``` (запускаем контейнер)
+- ```psql -U postgres```
+- ```\d```
 
 -----------------------
 Миграции баз данных
 -----------------------
 
 Иницализация миграции
-- alembic init migrations
+- ```alembic init migrations```
 
 Создание ревизии
-- alembic revision --autogenerate -m "Database creation"
+- ```alembic revision --autogenerate -m "Database creation"```
 
 Повышение
-- alembic upgrade <hash из verions в переменной revision (head)> 
+- ```alembic upgrade <hash из verions в переменной revision (head)>``` 
 
 ----------------------
 Документация
 ----------------------
 
 Описание зависимостей:
-- FastAPI: Основной фреймворк для создания API-приложений. В версии ^0.115.2 ты получаешь актуальные возможности по работе с асинхронностью,
+- ```FastAPI```: Основной фреймворк для создания API-приложений. В версии ^0.115.2 ты получаешь актуальные возможности по работе с асинхронностью,
 роутингом, валидацией данных через Pydantic и др.
 
-- Uvicorn: Асинхронный сервер для запуска FastAPI. Ты используешь версию с extras=["standard"],
+- ```Uvicorn```: Асинхронный сервер для запуска FastAPI. Ты используешь версию с extras=["standard"],
 что добавляет поддержку таких возможностей, как websockets и интеграция с различными протоколами.
 
-- SQLAlchemy: ORM для работы с базами данных. Ты указал extras=["asynio"],
+- ```SQLAlchemy```: ORM для работы с базами данных. Ты указал extras=["asynio"],
 чтобы использовать асинхронные функции взаимодействия с базой данных.
 
-- Asyncpg: Асинхронный драйвер для PostgreSQL. Он нужен для того, чтобы взаимодействовать с
+- ```Asyncpg```: Асинхронный драйвер для PostgreSQL. Он нужен для того, чтобы взаимодействовать с
 базой данных PostgreSQL через асинхронные вызовы.
 
-- Pydantic-settings: Инструмент для управления конфигурацией через Pydantic,
+- ```Pydantic-settings```: Инструмент для управления конфигурацией через Pydantic,
 что позволяет удобно работать с настройками приложения.
 
-- Alembic: Утилита для миграций базы данных. Она используется для управления схемой базы данных и выполнения версионирования.
+- ```Alembic```: Утилита для миграций базы данных. Она используется для управления схемой базы данных и выполнения версионирования.
 Для разработки:
-- Pytest: Фреймворк для тестирования. Версия ^8.3.3 позволит тебе писать юнит-тесты и обеспечивать качество кода.
-- Black: Инструмент для автоформатирования Python-кода, чтобы поддерживать единый стиль в проекте.
+- ```Pytest```: Фреймворк для тестирования. Версия ^8.3.3 позволит тебе писать юнит-тесты и обеспечивать качество кода.
+- ```Black```: Инструмент для автоформатирования Python-кода, чтобы поддерживать единый стиль в проекте.
 
 Описание модулей и файлов:
 

@@ -12,7 +12,7 @@ services:
   web:
     build: .
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:qwerty@localhost:5436/
+      DATABASE_URL: postgresql+asyncpg://postgres:qwerty@db:5432/
     depends_on:
       - db
     ports:
