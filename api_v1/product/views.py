@@ -10,7 +10,7 @@ from core.models import db_helper
 from . import crud
 from .schemas import Product, ProductCreate, ProductUpdate, ProductUpdatePartial
 
-router = APIRouter(tags=["Products"])
+router = APIRouter(tags=["Product"])
 
 
 @router.get("/", response_model=List[Product])

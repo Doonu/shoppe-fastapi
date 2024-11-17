@@ -8,7 +8,7 @@ from .dependencies import user_by_id
 
 from .schemas import User
 
-router = APIRouter(tags=["Users"])
+router = APIRouter(tags=["User"])
 
 
 @router.get("/", response_model=List[User])
