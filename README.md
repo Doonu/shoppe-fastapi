@@ -1,5 +1,3 @@
-# backend_shoppe https://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
-
 Запуск приложения:
 1) dev сборка - ```./run.sh```
 2) prod сборка - ```./run.sh prod```
@@ -177,6 +175,28 @@ async def get_items(db: AsyncSession = Depends(db_helper.session_dependency)):
 Связи между таблицами
 ------------------------------
 
+shared:
+Используется mixin для обращение к таблице user (обернуть в этот класс и получить привязку к этой таблице)
+```
+class UserRelationMixin:
+    _user_id_unique: bool = False
+    _user_back_populates: Optional[str] = None
+    _user_id_nullable: bool = False
+
+    @declared_attr
+    def user_id(cls) -> Mapped[int]:
+        return mapped_column(
+            ForeignKey("user.id"),
+            unique=cls._user_id_unique,
+            nullable=cls._user_id_nullable,
+        )
+
+    @declared_attr
+    def user(cls) -> Mapped["User"]:
+        return relationship("User", back_populates=cls._user_back_populates)
+```
+# backend_shoppe https://www.youtube.com/watch?v=LKkn-2FId8w&list=PLYnH8mpFQ4akzzS1D9IHkMuXacb-bD4Cl&index=4&ab_channel=%D0%A1%D1%83%D1%80%D0%B5%D0%BD%D0%A5%D0%BE%D1%80%D0%B5%D0%BD%D1%8F%D0%BD
+
 1) Один ко многим
 Отношение «один ко многим» (One-to-Many) между таблицами в базе данных означает, что 
 одна запись в одной таблице может быть связана с несколькими записями в другой таблице. 
@@ -186,14 +206,14 @@ user.py
 ```
     posts: Mapped[list["Post"]] = relationship(back_populates="user")
 ```
-post.py
-``` Post
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
-    user: Mapped["User"] = relationship(back_populates="posts")
-```
 
 2) Один к одному
 Связь «один к одному» (One-to-One) в базе данных означает, что каждая запись в одной таблице может быть связана 
 только с одной записью в другой таблице. Это полезно, когда ты хочешь разделить данные между двумя таблицами, но 
 поддерживать уникальное соответствие между записями.
 user.py и profile.py
+
+user.py
+```
+profile: Mapped["Profile"] = relationship(back_populates="user")
+```
