@@ -12,11 +12,15 @@ class PostCreate(PostBase):
     pass
 
 
-class PostsGet(PostBase):
-    user: User
+class PostUpdate(PostBase):
+    pass
 
 
 class Post(PostBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+
+
+class PostGet(Post):
+    user: User

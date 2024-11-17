@@ -9,7 +9,6 @@ from .schemas import Profile
 router = APIRouter(tags=["Profile"])
 
 
-# Вытаскивать id из сессии
 @router.get("/{user_id}", response_model=Profile)
 async def get_profile(
     user_id: int,

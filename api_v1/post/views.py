@@ -1,21 +1,27 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import db_helper
 from . import crud
-from .schemas import PostsGet, PostCreate
+from .dependencies import post_by_id
+from .schemas import PostGet, PostCreate, PostUpdate, Post
 
 router = APIRouter(tags=["Post"])
 
 
-@router.get("/", response_model=list[PostsGet])
+@router.get("/", response_model=list[PostGet])
 async def get_post(
     user_id: Optional[int] = None,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.get_all_posts(session=session, user_id=user_id)
+
+
+@router.get("/{post_id}", response_model=PostGet)
+async def get_item_posts(post: Post = Depends(post_by_id)):
+    return post
 
 
 @router.post("/")
@@ -25,3 +31,22 @@ async def create_post(
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
     return await crud.create_post(session=session, post_in=post_in, user_id=user_id)
+
+
+@router.put("/{post_id}", response_model=PostUpdate)
+async def update_post(
+    post_update: PostUpdate,
+    post: Post = Depends(post_by_id),
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud.update_product(
+        session=session, post_update=post_update, post=post
+    )
+
+
+@router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_product(
+    post: Post = Depends(post_by_id),
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+) -> None:
+    await crud.delete_post(session=session, post=post)
