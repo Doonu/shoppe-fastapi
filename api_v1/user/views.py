@@ -1,6 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
+from pydantic import EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import db_helper
 from . import crud
@@ -25,7 +26,8 @@ async def get_item_users(user: User = Depends(user_by_id)):
 
 @router.post("/", response_model=User)
 async def create_user(
-    username: str,
+    email: EmailStr,
+    password: str,
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
 ):
-    return await crud.create_user(username=username, session=session)
+    return await crud.create_user(email=email, password=password, session=session)

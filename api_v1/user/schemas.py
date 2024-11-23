@@ -1,8 +1,12 @@
-from pydantic import BaseModel, ConfigDict
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
-    username: str
+    username: Optional[str]
+    password: bytes
+    email: EmailStr
 
 
 class User(UserBase):

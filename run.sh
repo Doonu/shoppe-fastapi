@@ -20,6 +20,7 @@ if [ "$MODE" = "prod" ]; then
 
   docker-compose -f docker-compose.prod.yml up -d
 else
+  export ENV=dev
   export $(grep -v '^#' .env.dev | xargs)
   docker-compose up -d db || { echo "Ошибка при запуске базы данных"; exit 1; }
 
