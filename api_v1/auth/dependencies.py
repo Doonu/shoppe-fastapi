@@ -48,6 +48,12 @@ async def get_current_token_payload(
     return payload
 
 
+async def get_user_id_in_access_token(
+    payload: dict = Depends(get_current_token_payload),
+) -> int:
+    return payload.get("user_id")
+
+
 async def get_current_auth_user(
     payload: dict = Depends(get_current_token_payload),
     session: AsyncSession = Depends(db_helper.scoped_session_dependency),
