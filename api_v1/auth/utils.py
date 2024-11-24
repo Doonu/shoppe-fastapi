@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from datetime import timedelta, datetime
 from typing import Optional
+from fastapi import status
 
 import bcrypt
 import jwt
+from fastapi import HTTPException
 
 from core.config import settings
 
@@ -25,17 +27,26 @@ def encode_jwt(
         expire = now + timedelta(minutes=expire_minutes)
 
     to_encode.update(exp=expire, iat=now)
-    encoded = jwt.encode(payload=payload, key=private_key, algorithm=algorithm)
+    encoded = jwt.encode(payload=to_encode, key=private_key, algorithm=algorithm)
     return encoded
 
 
 def decode_jwt(
-    token: str | bytes,
+    token: str,
     public_key: str = settings.auth.public_key_path.read_text(),
     algorithm: str = settings.auth.algorithm,
 ):
-    decoded = jwt.decode(jwt=token, key=public_key, algorithms=[algorithm])
-    return decoded
+    try:
+        decoded = jwt.decode(jwt=token, key=public_key, algorithms=[algorithm])
+        return decoded
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail=f"Token has expired"
+        )
+    except jwt.InvalidTokenError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail=f"invalid token"
+        )
 
 
 def hash_password(password_user: str) -> bytes:
