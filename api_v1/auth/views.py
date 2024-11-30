@@ -37,7 +37,6 @@ async def auth_registration(user: User = Depends(create_user)):
 @router.post("/refresh", response_model=AuthBase, response_model_exclude_none=True)
 async def auth_refresh(user: User = Depends(get_current_auth_user_for_refresh)):
     access_token = await create_access_token(user=user)
-
     return AuthBase(access_token=access_token, token_type="Bearer")
 
 

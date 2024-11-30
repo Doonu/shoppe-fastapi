@@ -1,16 +1,15 @@
 from fastapi import APIRouter, Depends, status
 from typing import List
-
+from fastapi.security import HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .dependencies import product_by_id
-
 from core.models import db_helper
-
+from .dependencies import product_by_id
 from . import crud
 from .schemas import Product, ProductCreate, ProductUpdate, ProductUpdatePartial
 
-router = APIRouter(tags=["Product"])
+http_bearer = HTTPBearer()
+router = APIRouter(tags=["Product"], dependencies=[Depends(http_bearer)])
 
 
 @router.get("/", response_model=List[Product])
