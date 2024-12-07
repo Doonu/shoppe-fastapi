@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.engine import Result
 
 from core.models import Profile
 
@@ -21,3 +22,10 @@ async def create_profile(
     session.add(profile)
     await session.commit()
     return profile
+
+
+async def get_profile_list(session: AsyncSession):
+    state = select(Profile).order_by(Profile.id)
+    result: Result = await session.execute(state)
+    profiles = result.scalars().all()
+    return list(profiles)
