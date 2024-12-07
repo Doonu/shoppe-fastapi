@@ -1,8 +1,10 @@
+from fastapi import Depends
 from pydantic import EmailStr
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.engine import Result
 
+from api_v1.profile.schemas import ProfileUpdate
 from core.models import Profile
 
 
@@ -29,3 +31,13 @@ async def get_profile_list(session: AsyncSession):
     result: Result = await session.execute(state)
     profiles = result.scalars().all()
     return list(profiles)
+
+
+async def update_profile(
+    profile_update: ProfileUpdate, profile: Profile, session: AsyncSession
+) -> Profile:
+    for name, value in profile_update.model_dump(exclude_unset=True).items():
+        setattr(profile, name, value)
+
+    await session.commit()
+    return profile

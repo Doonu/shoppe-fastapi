@@ -18,3 +18,8 @@ class Profile(ProfileBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+
+
+class ProfileUpdate(Profile):
+    email: Optional[EmailStr] = None
+    gender: Optional[int] = None
