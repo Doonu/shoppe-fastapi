@@ -4,7 +4,6 @@ from .base import Base
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .order import Order
     from .order_product import OrderProductAssociation
 
 

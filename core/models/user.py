@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from .post import Post
     from .profile import Profile
+    from .order import Order
 
 
 class User(Base):
@@ -15,3 +16,4 @@ class User(Base):
 
     posts: Mapped[list["Post"]] = relationship(back_populates="user")
     profile: Mapped["Profile"] = relationship(back_populates="user")
+    orders: Mapped["Order"] = relationship(back_populates="user")

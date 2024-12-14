@@ -1,6 +1,6 @@
 from .base import Base
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, Integer, CheckConstraint, ForeignKey
+from sqlalchemy import String, Integer, CheckConstraint
 
 from .mixins import UserRelationMixin
 
