@@ -2,9 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Path
 from fastapi.security import HTTPBearer
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from api_v1.auth.dependencies import get_user_id_in_access_token
 from api_v1.order import crud as crud_order
@@ -64,4 +62,26 @@ async def add_product_in_order(
     active_order.products_details.append(
         OrderProductAssociation(product=product, count=1)
     )
+
     await session.commit()
+
+    await crud_order.update_unit_price_for_type_product_in_order(
+        order_id=active_order.id, session=session
+    )
+
+
+@router.post("/change-count")
+async def change_count_product(
+    count_in: int,
+    product_id: int,
+    order_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    if count_in <= 0:
+        await crud_order.delete_product_in_order(
+            order_id=order_id, product_id=product_id, session=session
+        )
+
+    return await crud_order.change_count_product(
+        product_id=product_id, order_id=order_id, session=session, count_in=count_in
+    )
