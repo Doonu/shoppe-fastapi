@@ -34,7 +34,7 @@ async def get_item_orders(
     )
 
 
- # TODO active-order
+# TODO active-order
 @router.post("/active_order", response_model=OrderCreate)
 async def get_item_active(active_order: OrderCreate = Depends(get_item_active_order)):
     return active_order
@@ -68,6 +68,17 @@ async def add_product_in_order(
 
     await crud_order.update_unit_price_for_type_product_in_order(
         order_id=active_order.id, session=session
+    )
+
+
+@router.delete("/delete-product")
+async def delete_product(
+    product_id: int,
+    order_id: int,
+    session: AsyncSession = Depends(db_helper.scoped_session_dependency),
+):
+    return await crud_order.delete_product_in_order(
+        order_id=order_id, product_id=product_id, session=session
     )
 
 
